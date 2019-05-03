@@ -8,6 +8,10 @@ public class PersonalInfo {
     private String name = "";
     private String emailAddress = "";
 
+
+
+    private String phone = "";
+
     //Arraylist of objects for this person's professional profile
     ArrayList<Education> educationList = new ArrayList<Education>();
     ArrayList<Skill> skillList = new ArrayList<Skill>();
@@ -62,6 +66,13 @@ public class PersonalInfo {
 
     public void setExperienceList(ArrayList<Experience> experienceList) {
         this.experienceList = experienceList;
+    }
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
     private boolean isEmailValid(String email){
         boolean isValid = false;

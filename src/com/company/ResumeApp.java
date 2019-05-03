@@ -92,6 +92,8 @@ public class ResumeApp {
                     System.out.print("Enter new name: ");
                     p1.setName(scanner.nextLine());
                     displayResumeApp(p1);
+                }else {
+                    System.out.println("Name " +name +" not found");
                 }
 
             } else {
@@ -107,7 +109,28 @@ public class ResumeApp {
                         System.out.print("Enter new email: ");
                         p1.setEmailAddress(scanner.nextLine());
                         displayResumeApp(p1);
+                    }else {
+                        System.out.println("Name " +name +" not found");
                     }
+                } else {
+                    //prompt to change phone#
+                    System.out.print("Do you want to change the phone#(Y|N");
+                    if (scanner.nextLine().equalsIgnoreCase("Y")) {
+                        //Prompt for older name
+                        System.out.print("Enter the name: ");
+                        String name = scanner.nextLine();
+                        if (recruiterHashMap.containsKey(name)) {
+                            //prompt for new name
+                            PersonalInfo p1 = recruiterHashMap.get(name);
+                            System.out.print("Enter new phone#: ");
+                            p1.setPhone(scanner.nextLine());
+                            displayResumeApp(p1);
+                        } else {
+                            System.out.println("Name " +name +" not found");
+                        }
+
+                    }
+
                 }
             }
         }
@@ -133,6 +156,8 @@ public class ResumeApp {
         while(!personalInfo.setEmailAddress(keyboard.nextLine())) {
             System.out.print("Email address is invalid please enter valid email address: ");
         }
+        System.out.print("Enter your phone#: ");
+        personalInfo.setPhone(keyboard.nextLine());
 
         //Input the Education
         while(input) {
@@ -260,6 +285,7 @@ public class ResumeApp {
         System.out.println("==========================================================================================");
         System.out.println(""+personalInfo.getName());
         System.out.println("" +personalInfo.getEmailAddress());
+        System.out.println("" +personalInfo.getPhone());
         System.out.println("\n" +"Education");
         for(Education e:personalInfo.getEducationList()) {
             System.out.println(""+e.getDegree()+" in "+e.getMajor()+",");
