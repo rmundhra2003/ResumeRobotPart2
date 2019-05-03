@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Scanner;
 /*
         @@@ResumeApp:
@@ -31,22 +32,95 @@ import java.util.Scanner;
 */
 
 public class ResumeApp {
+    static Recruiter recruiter = new Recruiter();
+    static ArrayList<PersonalInfo> resumeList = recruiter.getResumeList();
+    static HashMap<String, PersonalInfo> recruiterHashMap = recruiter.getHashMap();
 
-    static PersonalInfo personalInfo = new PersonalInfo();
     public static void main(String[] args) {
+        boolean value = false;
+        Scanner scanner = new Scanner(System.in);
+
 
         //Prompt user for input
-        promptUserInput();
+        while (true) {
+            PersonalInfo p = promptUserInput();
 
-        //Display resume
-        displayResumeApp();
+            //Display resume
+            displayResumeApp(p);
+
+            //prompt user if they want to go again
+            System.out.print("Do you want to enter another resume(Y|N): ");
+            if (scanner.nextLine().equalsIgnoreCase("N"))
+                break;
+        }
+
+        //Prompt to check if Recruiter/Job seeker
+        System.out.println("Are you a recruiter(Y|N): ");
+        if (scanner.nextLine().equalsIgnoreCase("Y"))
+            value = true;
+        //If recruiter
+        if (value) {
+            ArrayList<PersonalInfo> resumeMatchList = new ArrayList<PersonalInfo>();
+            System.out.print("Enter the skill you are looking for: ");
+            String s = scanner.nextLine();
+            //Search for this skill in resume database
+            for (PersonalInfo p : resumeList) {
+                //Look for the skill in skill list
+                for (Skill skill : p.getSkillList()) {
+                    //if match add to the return arraylist of resumes
+                    if (skill.getSkillName().equalsIgnoreCase(s)) {
+                        //Add this resume to the list
+                        resumeMatchList.add(p);
+                    }
+                }
+
+            }
+            //Print out the resume in resumeMatchList
+            for (PersonalInfo match : resumeMatchList)
+                displayResumeApp(match);
+
+        } else {
+            //Prompt user for what they want to do
+            System.out.print("Do you want to change your name in resume(Y|N): ");
+            if (scanner.nextLine().equalsIgnoreCase("Y")) {
+                //Prompt for older name
+                System.out.print("Enter the previous name: ");
+                String name = scanner.nextLine();
+                if (recruiterHashMap.containsKey(name)) {
+                    //prompt for new name
+                    PersonalInfo p1 = recruiterHashMap.get(name);
+                    System.out.print("Enter new name: ");
+                    p1.setName(scanner.nextLine());
+                    displayResumeApp(p1);
+                }
+
+            } else {
+                //prompt to change email address
+                System.out.print("Do you want to change the email(Y|N");
+                if (scanner.nextLine().equalsIgnoreCase("Y")) {
+                    //Prompt for older name
+                    System.out.print("Enter the name: ");
+                    String name = scanner.nextLine();
+                    if (recruiterHashMap.containsKey(name)) {
+                        //prompt for new name
+                        PersonalInfo p1 = recruiterHashMap.get(name);
+                        System.out.print("Enter new email: ");
+                        p1.setEmailAddress(scanner.nextLine());
+                        displayResumeApp(p1);
+                    }
+                }
+            }
+        }
+
     }
     //Prompt user for personal Info
-    public static void promptUserInput() {
+    public static PersonalInfo promptUserInput() {
         boolean input = true;
+        PersonalInfo personalInfo = new PersonalInfo();
         ArrayList<Education> eList = personalInfo.getEducationList();
         ArrayList<Skill> sList = personalInfo.getSkillList();
         ArrayList<Experience>expList = personalInfo.getExperienceList();
+
 
         Scanner keyboard = new Scanner(System.in);
 
@@ -163,6 +237,9 @@ public class ResumeApp {
             if(keyboard.nextLine().equalsIgnoreCase("N"))
                 break;
         }
+        resumeList.add(personalInfo);
+        recruiterHashMap.put(personalInfo.getName(), personalInfo);
+        return personalInfo;
     }
     //Function to validate the start date and end date
     public static boolean validateDates(String start, String end) {
@@ -179,7 +256,7 @@ public class ResumeApp {
             return false;
 
     }
-    public static void displayResumeApp() {
+    public static void displayResumeApp(PersonalInfo personalInfo) {
         System.out.println("==========================================================================================");
         System.out.println(""+personalInfo.getName());
         System.out.println("" +personalInfo.getEmailAddress());
