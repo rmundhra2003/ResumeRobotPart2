@@ -29,6 +29,11 @@ import java.util.Scanner;
         Care has been taken to validate dates, competency, degree information, year of graduation using Regular
         expressions
         ******
+        *
+        * Allows  person to change their name, e-mail address and/or phone number
+          Created a recruiter class. The recruiter can search all the resumes and find those with a particular skill.
+          You only have to search for one skill. So if you have five resumes and three contain Java then the search
+          returns a list of those three people's names.
 */
 
 public class ResumeApp {
@@ -157,7 +162,10 @@ public class ResumeApp {
             System.out.print("Email address is invalid please enter valid email address: ");
         }
         System.out.print("Enter your phone#: ");
-        personalInfo.setPhone(keyboard.nextLine());
+        //Validate phone number
+        while(!personalInfo.setPhone(keyboard.nextLine())) {
+            System.out.print("Phone number is invalid please enter valid phone number: ");
+        }
 
         //Input the Education
         while(input) {
@@ -281,6 +289,7 @@ public class ResumeApp {
             return false;
 
     }
+    //Displays the resume input in a pretty format
     public static void displayResumeApp(PersonalInfo personalInfo) {
         System.out.println("==========================================================================================");
         System.out.println(""+personalInfo.getName());
