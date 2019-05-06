@@ -103,7 +103,7 @@ public class ResumeApp {
 
             } else {
                 //prompt to change email address
-                System.out.print("Do you want to change the email(Y|N");
+                System.out.print("Do you want to change the email(Y|N)");
                 if (scanner.nextLine().equalsIgnoreCase("Y")) {
                     //Prompt for older name
                     System.out.print("Enter the name: ");
@@ -112,14 +112,16 @@ public class ResumeApp {
                         //prompt for new name
                         PersonalInfo p1 = recruiterHashMap.get(name);
                         System.out.print("Enter new email: ");
-                        p1.setEmailAddress(scanner.nextLine());
+                        while(!p1.setEmailAddress(scanner.nextLine())) {
+                            System.out.print("Email invalid please enter valid email: ");
+                        }
                         displayResumeApp(p1);
                     }else {
                         System.out.println("Name " +name +" not found");
                     }
                 } else {
                     //prompt to change phone#
-                    System.out.print("Do you want to change the phone#(Y|N");
+                    System.out.print("Do you want to change the phone#(Y|N)");
                     if (scanner.nextLine().equalsIgnoreCase("Y")) {
                         //Prompt for older name
                         System.out.print("Enter the name: ");
@@ -128,7 +130,9 @@ public class ResumeApp {
                             //prompt for new name
                             PersonalInfo p1 = recruiterHashMap.get(name);
                             System.out.print("Enter new phone#: ");
-                            p1.setPhone(scanner.nextLine());
+                            while(!p1.setPhone(scanner.nextLine())) {
+                                System.out.print("Phone number invalid please enter valid number: ");
+                            }
                             displayResumeApp(p1);
                         } else {
                             System.out.println("Name " +name +" not found");
